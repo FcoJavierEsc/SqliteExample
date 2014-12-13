@@ -23,7 +23,7 @@
                 
             </intent-filter>
         </activity>
-        <provider android:name= "MiContentProvider" android:authorities="com.utad.sqliteexample"></provider>
+        <provider android:name= "com.utad.sqliteexample.MiContentProvider" android:authorities="com.utad.sqliteexample"></provider>
     </application>
 
 </manifest>

@@ -18,17 +18,20 @@ public class MiContentProvider extends ContentProvider {
 	private static final String DB = "Prueba";
 	private static final String TABLA = "Prueba1";
 
-	public static final Uri CONTENT_URI = Uri.parse("content://com.utad.pruebaSQL/"
+	public static final Uri CONTENT_URI = Uri.parse("content://com.utad.sqliteexample/"
 			+ DB);
 	public static final String PERSON_ID = "_id";
 	public static final String PERSON_NAME = "Nombre";
 
 	private MiSqliteOpenHelper mHelper = null;
 
+	
+	
 	@Override
 	public boolean onCreate() {
-		// TODO Auto-generated method stub
-		return false;
+		 
+		mHelper = new MiSqliteOpenHelper(getContext(), DB, null, 2);
+		return true;
 	}
 
 	@Override
@@ -47,7 +50,8 @@ public class MiContentProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
+		SQLiteDatabase db = mHelper.getWritableDatabase();
+		db.insert(TABLA, null, values);
 		return null;
 	}
 
@@ -69,16 +73,50 @@ public class MiContentProvider extends ContentProvider {
 		public MiSqliteOpenHelper(Context context, String name,
 				CursorFactory factory, int version) {
 			super(context, name, factory, version);
-			// TODO Auto-generated constructor stub
+
+		
+			
+
+//			String dbPath = null;
+//			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//				dbPath = context.getApplicationInfo().dataDir + "/databases/" + DB;
+//			} else {
+//				dbPath = "/data/data/" + context.getPackageName() + "/databases/" + DB;
+//			}
+//			
+//			File dbFile = new File(dbPath);
+//			
+//			if (!dbFile.exists()) {
+//				this.getReadableDatabase();
+//				this.close();
+//				try {
+//					InputStream is = context.getAssets().open(DB + ".sql");
+//					OutputStream os = new FileOutputStream(dbPath);
+//					byte[] buffer = new byte[1024];
+//					int read;
+//					while ((read = is.read(buffer)) > 0) {
+//						os.write(buffer, 0, read);
+//					}
+//					os.flush();
+//					os.close();
+//					is.close();
+//				} catch (Exception ex) {
+//					ex.printStackTrace();
+//				}
+//			}
+//			
+			
 		}
 
+		
+		
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 
-			db.execSQL("CREATE TABLE " + DB + "(" + PERSON_ID
+			db.execSQL("CREATE TABLE " + TABLA + "(" + PERSON_ID
 					+ " int PRIMARY KEY," + PERSON_NAME
 					+ " varchar (200),edad int)");
-			Log.v("VAMO", "CREADA");
+			Log.v("VAMOS", "CREADA");
 		}
 
 		@Override
